@@ -17,7 +17,7 @@ function Messages() {
   }, []);
 
   const fetchConversations = () => {
-    fetch("http://localhost:3000/conversations")
+    fetch("/conversations")
       .then((res) => res.json())
       .then((data) => {
         const myConversations = data.filter((conversation) =>
@@ -84,7 +84,7 @@ function Messages() {
       createdAt: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/notifications", {
+    fetch("/notifications", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -130,7 +130,7 @@ function Messages() {
       updatedAt: new Date().toISOString(),
     };
 
-    fetch(`http://localhost:3000/conversations/${selectedConversation.id}`, {
+    fetch(`/conversations/${selectedConversation.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -171,7 +171,7 @@ function Messages() {
   };
 
   const deleteConversation = (conversationId) => {
-    fetch(`http://localhost:3000/conversations/${conversationId}`, {
+    fetch(`/conversations/${conversationId}`, {
       method: "DELETE",
     })
       .then((res) => {
@@ -211,7 +211,7 @@ function Messages() {
       updatedAt: new Date().toISOString(),
     };
 
-    fetch(`http://localhost:3000/conversations/${selectedConversation.id}`, {
+    fetch(`/conversations/${selectedConversation.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

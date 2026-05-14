@@ -8,7 +8,7 @@ function Search() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/users")
+    fetch("/users")
       .then((res) => res.json())
       .then((data) => setUsers(data))
       .catch((err) => console.log("Users fetch error:", err));

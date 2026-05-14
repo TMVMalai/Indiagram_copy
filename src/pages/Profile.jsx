@@ -28,7 +28,7 @@ function Profile() {
   }, []);
 
   const fetchProfileData = () => {
-    fetch(`http://localhost:3000/users/${currentUser.id}`)
+    fetch(`/users/${currentUser.id}`)
       .then((res) => res.json())
       .then((freshUser) => {
         setCurrentUser(freshUser);
@@ -36,12 +36,12 @@ function Profile() {
       })
       .catch((err) => console.log("Current user fetch error:", err));
 
-    fetch("http://localhost:3000/users")
+    fetch("/users")
       .then((res) => res.json())
       .then((data) => setAllUsers(data))
       .catch((err) => console.log("All users fetch error:", err));
 
-    fetch(`http://localhost:3000/posts?userId=${currentUser.id}`)
+    fetch(`/posts?userId=${currentUser.id}`)
       .then((res) => res.json())
       .then((data) => {
         const formattedPosts = data.map((post) => ({
@@ -55,12 +55,12 @@ function Profile() {
       })
       .catch((err) => console.log("Posts fetch error:", err));
 
-    fetch(`http://localhost:3000/reels?userId=${currentUser.id}`)
+    fetch(`/reels?userId=${currentUser.id}`)
       .then((res) => res.json())
       .then((data) => setMyReels(data))
       .catch((err) => console.log("Reels fetch error:", err));
 
-    fetch(`http://localhost:3000/reposts?userId=${currentUser.id}`)
+    fetch(`/reposts?userId=${currentUser.id}`)
       .then((res) => res.json())
       .then((data) => setMyReposts(data))
       .catch((err) => console.log("Reposts fetch error:", err));
@@ -104,7 +104,7 @@ function Profile() {
     };
 
     Promise.all([
-      fetch(`http://localhost:3000/users/${currentUser.id}`, {
+      fetch(`/users/${currentUser.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -114,7 +114,7 @@ function Profile() {
           following: updatedCurrentFollowingIds.length,
         }),
       }),
-      fetch(`http://localhost:3000/users/${targetUser.id}`, {
+      fetch(`/users/${targetUser.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -165,7 +165,7 @@ function Profile() {
     };
 
     Promise.all([
-      fetch(`http://localhost:3000/users/${currentUser.id}`, {
+      fetch(`/users/${currentUser.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -175,7 +175,7 @@ function Profile() {
           following: updatedCurrentFollowingIds.length,
         }),
       }),
-      fetch(`http://localhost:3000/users/${targetUser.id}`, {
+      fetch(`/users/${targetUser.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -236,7 +236,7 @@ function Profile() {
       likes: post.liked ? post.likes - 1 : post.likes + 1,
     };
 
-    fetch(`http://localhost:3000/posts/${post.id}`, {
+    fetch(`/posts/${post.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -279,7 +279,7 @@ function Profile() {
 
     const updatedComments = [...(selectedPost.comments || []), newComment];
 
-    fetch(`http://localhost:3000/posts/${selectedPost.id}`, {
+    fetch(`/posts/${selectedPost.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

@@ -24,7 +24,7 @@ function SideBar({ setLoggedInUser }) {
     if (!loggedUser) return;
 
     fetch(
-      `http://localhost:3000/notifications?toUserId=${loggedUser.id}&isRead=false`
+      `/notifications?toUserId=${loggedUser.id}&isRead=false`
     )
       .then((res) => res.json())
       .then((data) => {

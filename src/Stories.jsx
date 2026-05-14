@@ -29,7 +29,7 @@ function Stories() {
   }, []);
 
   const fetchStories = () => {
-    fetch("http://localhost:3000/stories")
+    fetch("/stories")
       .then((res) => res.json())
       .then((data) => {
         setStories(data);
@@ -121,7 +121,7 @@ function Stories() {
       createdAt: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/stories", {
+    fetch("/stories", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -190,7 +190,7 @@ function Stories() {
     setSelectedStory(updatedStory);
 
     if (!alreadyViewed) {
-      fetch(`http://localhost:3000/stories/${story.id}`, {
+      fetch(`/stories/${story.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -241,7 +241,7 @@ function Stories() {
 
     const updatedComments = [...(selectedStory.comments || []), newComment];
 
-    fetch(`http://localhost:3000/stories/${selectedStory.id}`, {
+    fetch(`/stories/${selectedStory.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -293,7 +293,7 @@ function Stories() {
       isRead: false,
     };
 
-    fetch(`http://localhost:3000/conversations?conversationId=${conversationId}`)
+    fetch(`/conversations?conversationId=${conversationId}`)
       .then((res) => res.json())
       .then((existingConversation) => {
         if (existingConversation.length > 0) {
@@ -304,7 +304,7 @@ function Stories() {
             newMessage,
           ];
 
-          fetch(`http://localhost:3000/conversations/${conversation.id}`, {
+          fetch(`/conversations/${conversation.id}`, {
             method: "PATCH",
             headers: {
               "Content-Type": "application/json",
@@ -338,7 +338,7 @@ function Stories() {
             updatedAt: new Date().toISOString(),
           };
 
-          fetch("http://localhost:3000/conversations", {
+          fetch("/conversations", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -360,7 +360,7 @@ function Stories() {
     return;
   }
 
-  fetch(`http://localhost:3000/stories/${selectedStory.id}`, {
+  fetch(`/stories/${selectedStory.id}`, {
     method: "DELETE",
   })
     .then((res) => {

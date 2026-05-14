@@ -57,7 +57,7 @@ function Posts() {
     setLoading(true);
     setError("");
 
-    fetch("http://localhost:3000/posts")
+    fetch("/posts")
       .then((res) => {
         if (!res.ok) {
           throw new Error("Unable to fetch posts");
@@ -100,7 +100,7 @@ function Posts() {
   };
 
   const fetchUsers = () => {
-    fetch("http://localhost:3000/users")
+    fetch("/users")
       .then((res) => res.json())
       .then((data) => {
         const otherUsers = data.filter(
@@ -113,7 +113,7 @@ function Posts() {
   };
 
   const updatePostInServer = (postId, updatedData) => {
-    return fetch(`http://localhost:3000/posts/${postId}`, {
+    return fetch(`/posts/${postId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -202,7 +202,7 @@ function Posts() {
 
   const handleRepost = (post) => {
     fetch(
-      `http://localhost:3000/reposts?userId=${currentUser.id}&originalPostId=${post.id}`
+      `/reposts?userId=${currentUser.id}&originalPostId=${post.id}`
     )
       .then((res) => res.json())
       .then((existingReposts) => {
@@ -227,7 +227,7 @@ function Posts() {
           repostedAt: new Date().toISOString(),
         };
 
-        fetch("http://localhost:3000/reposts", {
+        fetch("/reposts", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -402,7 +402,7 @@ function Posts() {
       createdAt: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/notifications", {
+    fetch("/notifications", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -455,7 +455,7 @@ function Posts() {
       isRead: false,
     };
 
-    fetch(`http://localhost:3000/conversations?conversationId=${conversationId}`)
+    fetch(`/conversations?conversationId=${conversationId}`)
       .then((res) => res.json())
       .then((existingConversation) => {
         if (existingConversation.length > 0) {
@@ -467,7 +467,7 @@ function Posts() {
           ];
 
           return fetch(
-            `http://localhost:3000/conversations/${conversation.id}`,
+            `/conversations/${conversation.id}`,
             {
               method: "PATCH",
               headers: {
@@ -502,7 +502,7 @@ function Posts() {
           updatedAt: new Date().toISOString(),
         };
 
-        return fetch("http://localhost:3000/conversations", {
+        return fetch("/conversations", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

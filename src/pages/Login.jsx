@@ -8,7 +8,7 @@ function Login({ setLoggedInUser }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginUser = () => {
+  const loginUser = async () => {
     if (!email.trim()) {
       toast.error("Please enter email");
       return;
@@ -19,46 +19,44 @@ function Login({ setLoggedInUser }) {
       return;
     }
 
-    fetch(`/users?email=${encodeURIComponent(email.trim())}`)
-      .then(async (res) => {
-        if (!res.ok) {
-          const errorText = await res.text();
-          throw new Error(errorText || "Unable to connect to server");
-        }
+    try {
+      const response = await fetch(`/users?email=${encodeURIComponent(email.trim())}`);
 
-        return res.json();
-      })
-      .then((users) => {
-        if (!Array.isArray(users)) {
-          toast.error("Invalid server response");
-          return;
-        }
+      if (!response.ok) {
+        throw new Error("Unable to connect to API");
+      }
 
-        if (users.length === 0) {
-          toast.error("User not found");
-          return;
-        }
+      const users = await response.json();
 
-        const user = users[0];
+      if (!Array.isArray(users)) {
+        toast.error("Invalid server response");
+        return;
+      }
 
-        if (user.password !== password) {
-          toast.error("Invalid password");
-          return;
-        }
+      if (users.length === 0) {
+        toast.error("User not found");
+        return;
+      }
 
-        localStorage.setItem("loggedInUser", JSON.stringify(user));
+      const user = users[0];
 
-        if (setLoggedInUser) {
-          setLoggedInUser(user);
-        }
+      if (user.password !== password) {
+        toast.error("Invalid password");
+        return;
+      }
 
-        toast.success(`Welcome ${user.username}`);
-        navigate("/");
-      })
-      .catch((err) => {
-        console.log("Login error:", err);
-        toast.error("Unable to login. Please check server/API.");
-      });
+      localStorage.setItem("loggedInUser", JSON.stringify(user));
+
+      if (setLoggedInUser) {
+        setLoggedInUser(user);
+      }
+
+      toast.success(`Welcome ${user.username}`);
+      navigate("/");
+    } catch (error) {
+      console.log("Login error:", error);
+      toast.error("Login failed. Please try again.");
+    }
   };
 
   return (
@@ -67,7 +65,7 @@ function Login({ setLoggedInUser }) {
       style={{ minHeight: "100vh" }}
     >
       <div className="border rounded p-4" style={{ width: "380px" }}>
-        <h2 className="text-center mb-4">Indiaagram Login</h2>
+        <h2 className="text-center mb-4">Login</h2>
 
         <input
           type="email"

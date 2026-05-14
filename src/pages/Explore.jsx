@@ -38,8 +38,8 @@ function Explore() {
     setLoading(true);
 
     Promise.all([
-      fetch("http://localhost:3000/posts").then((res) => res.json()),
-      fetch("http://localhost:3000/users").then((res) => res.json()),
+      fetch("/posts").then((res) => res.json()),
+      fetch("/users").then((res) => res.json()),
     ])
       .then(([postsData, usersData]) => {
         const formattedPosts = postsData.map((post) => ({
@@ -100,7 +100,7 @@ function Explore() {
       likes: post.liked ? post.likes - 1 : post.likes + 1,
     };
 
-    fetch(`http://localhost:3000/posts/${post.id}`, {
+    fetch(`/posts/${post.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -145,7 +145,7 @@ function Explore() {
 
     const updatedComments = [...(selectedPost.comments || []), newComment];
 
-    fetch(`http://localhost:3000/posts/${selectedPost.id}`, {
+    fetch(`/posts/${selectedPost.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -197,7 +197,7 @@ function Explore() {
     };
 
     Promise.all([
-      fetch(`http://localhost:3000/users/${currentUser.id}`, {
+      fetch(`/users/${currentUser.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -207,7 +207,7 @@ function Explore() {
           following: updatedCurrentFollowingIds.length,
         }),
       }),
-      fetch(`http://localhost:3000/users/${targetUser.id}`, {
+      fetch(`/users/${targetUser.id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",

@@ -188,7 +188,7 @@ function Create() {
       createdAt: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/posts", {
+    fetch("/posts", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -254,7 +254,7 @@ function Create() {
       createdAt: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/reels", {
+    fetch("/reels", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

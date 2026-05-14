@@ -31,7 +31,7 @@ function UserProfile() {
 
     if (!storedUser) return;
 
-    fetch(`http://localhost:3000/users/${storedUser.id}`)
+    fetch(`/users/${storedUser.id}`)
       .then((res) => res.json())
       .then((freshLoggedUser) => {
         setLoggedInUser(freshLoggedUser);
@@ -39,17 +39,17 @@ function UserProfile() {
       })
       .catch((err) => console.log("Logged user fetch error:", err));
 
-    fetch(`http://localhost:3000/users/${userId}`)
+    fetch(`/users/${userId}`)
       .then((res) => res.json())
       .then((data) => setProfileUser(data))
       .catch((err) => console.log("Profile user fetch error:", err));
 
-    fetch("http://localhost:3000/users")
+    fetch("/users")
       .then((res) => res.json())
       .then((data) => setAllUsers(data))
       .catch((err) => console.log("All users fetch error:", err));
 
-    fetch(`http://localhost:3000/posts?userId=${userId}`)
+    fetch(`/posts?userId=${userId}`)
       .then((res) => res.json())
       .then((data) => {
         const formattedPosts = data.map((post) => ({
@@ -63,7 +63,7 @@ function UserProfile() {
       })
       .catch((err) => console.log("User posts fetch error:", err));
 
-    fetch(`http://localhost:3000/reels?userId=${userId}`)
+    fetch(`/reels?userId=${userId}`)
       .then((res) => res.json())
       .then((data) => setUserReels(data))
       .catch((err) => console.log("User reels fetch error:", err));
@@ -115,7 +115,7 @@ function UserProfile() {
     };
 
     Promise.all([
-      fetch(`http://localhost:3000/users/${loggedInUser.id}`, {
+      fetch(`/users/${loggedInUser.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -123,7 +123,7 @@ function UserProfile() {
           following: updatedLoggedFollowingIds.length,
         }),
       }),
-      fetch(`http://localhost:3000/users/${targetUser.id}`, {
+      fetch(`/users/${targetUser.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -176,7 +176,7 @@ function UserProfile() {
     };
 
     Promise.all([
-      fetch(`http://localhost:3000/users/${loggedInUser.id}`, {
+      fetch(`/users/${loggedInUser.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -184,7 +184,7 @@ function UserProfile() {
           following: updatedLoggedFollowingIds.length,
         }),
       }),
-      fetch(`http://localhost:3000/users/${targetUser.id}`, {
+      fetch(`/users/${targetUser.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -233,7 +233,7 @@ function UserProfile() {
   const startDirectMessage = () => {
     const conversationId = [loggedInUser.id, profileUser.id].sort().join("_");
 
-    fetch(`http://localhost:3000/conversations?conversationId=${conversationId}`)
+    fetch(`/conversations?conversationId=${conversationId}`)
       .then((res) => res.json())
       .then((existingConversation) => {
         if (existingConversation.length > 0) {
@@ -261,7 +261,7 @@ function UserProfile() {
           updatedAt: new Date().toISOString(),
         };
 
-        fetch("http://localhost:3000/conversations", {
+        fetch("/conversations", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newConversation),
@@ -288,7 +288,7 @@ function UserProfile() {
       likes: post.liked ? post.likes - 1 : post.likes + 1,
     };
 
-    fetch(`http://localhost:3000/posts/${post.id}`, {
+    fetch(`/posts/${post.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -329,7 +329,7 @@ function UserProfile() {
 
     const updatedComments = [...(selectedPost.comments || []), newComment];
 
-    fetch(`http://localhost:3000/posts/${selectedPost.id}`, {
+    fetch(`/posts/${selectedPost.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

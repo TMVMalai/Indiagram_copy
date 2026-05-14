@@ -21,7 +21,7 @@ function Notifications() {
   }, []);
 
   const fetchNotifications = () => {
-    fetch(`http://localhost:3000/notifications?toUserId=${currentUser.id}`)
+    fetch(`/notifications?toUserId=${currentUser.id}`)
       .then((res) => res.json())
       .then((data) => {
         const sortedNotifications = data.sort(
@@ -37,7 +37,7 @@ function Notifications() {
   };
 
   const markAsRead = (notification) => {
-    fetch(`http://localhost:3000/notifications/${notification.id}`, {
+    fetch(`/notifications/${notification.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -74,7 +74,7 @@ function Notifications() {
 
     Promise.all(
       unreadNotifications.map((notification) =>
-        fetch(`http://localhost:3000/notifications/${notification.id}`, {
+        fetch(`/notifications/${notification.id}`, {
           method: "PATCH",
           headers: {
             "Content-Type": "application/json",
@@ -102,7 +102,7 @@ function Notifications() {
   };
 
   const deleteNotification = (notificationId) => {
-    fetch(`http://localhost:3000/notifications/${notificationId}`, {
+    fetch(`/notifications/${notificationId}`, {
       method: "DELETE",
     })
       .then((res) => {

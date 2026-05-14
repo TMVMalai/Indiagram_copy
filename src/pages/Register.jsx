@@ -21,7 +21,7 @@ function Register({ setLoggedInUser }) {
       return;
     }
 
-    fetch("http://localhost:3000/users")
+    fetch("/users")
       .then((res) => res.json())
       .then((users) => {
         const usernameExists = users.some((user) => user.username === username);
@@ -48,7 +48,7 @@ function Register({ setLoggedInUser }) {
           following: 0,
         };
 
-        fetch("http://localhost:3000/users", {
+        fetch("/users", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

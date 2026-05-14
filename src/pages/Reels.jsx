@@ -43,7 +43,7 @@ function Reels() {
   };
 
   const fetchReels = () => {
-    fetch("http://localhost:3000/reels")
+    fetch("/reels")
       .then((res) => res.json())
       .then((data) => {
         const formattedReels = data.map((reel) => {
@@ -79,7 +79,7 @@ function Reels() {
   };
 
   const fetchUsers = () => {
-    fetch("http://localhost:3000/users")
+    fetch("/users")
       .then((res) => res.json())
       .then((data) => {
         const otherUsers = data.filter(
@@ -92,7 +92,7 @@ function Reels() {
   };
 
   const updateReelInServer = (reelId, updatedData) => {
-    return fetch(`http://localhost:3000/reels/${reelId}`, {
+    return fetch(`/reels/${reelId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -262,7 +262,7 @@ function Reels() {
       createdAt: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/notifications", {
+    fetch("/notifications", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -313,7 +313,7 @@ function Reels() {
       isRead: false,
     };
 
-    fetch(`http://localhost:3000/conversations?conversationId=${conversationId}`)
+    fetch(`/conversations?conversationId=${conversationId}`)
       .then((res) => res.json())
       .then((existingConversation) => {
         if (existingConversation.length > 0) {
@@ -325,7 +325,7 @@ function Reels() {
           ];
 
           return fetch(
-            `http://localhost:3000/conversations/${conversation.id}`,
+            `/conversations/${conversation.id}`,
             {
               method: "PATCH",
               headers: {
@@ -360,7 +360,7 @@ function Reels() {
           updatedAt: new Date().toISOString(),
         };
 
-        return fetch("http://localhost:3000/conversations", {
+        return fetch("/conversations", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
