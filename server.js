@@ -45,15 +45,44 @@ const matchesQuery = (item, query) => {
 };
 
 app.get("/", (req, res) => {
+  const distPath = path.join(__dirname, "dist");
+  const indexPath = path.join(distPath, "index.html");
+
+  if (fs.existsSync(indexPath)) {
+    return res.sendFile(indexPath);
+  }
+
   res.json({
     message: "Custom JSON Server running",
   });
 });
 
-app.get("/:resource", (req, res) => {
+app.get("/:resource", (req, res, next) => {
   try {
-    const db = readDB();
+    const distPath = path.join(__dirname, "dist");
+
+    const apiResources = [
+      "users",
+      "posts",
+      "stories",
+      "reels",
+      "conversations",
+      "notifications",
+      "reposts",
+      "suggestions",
+    ];
+
     const { resource } = req.params;
+
+    if (!apiResources.includes(resource)) {
+      if (fs.existsSync(path.join(distPath, "index.html"))) {
+        return res.sendFile(path.join(distPath, "index.html"));
+      }
+
+      return next();
+    }
+
+    const db = readDB();
 
     if (!db[resource]) {
       return res.status(404).json({ error: `${resource} not found` });
@@ -72,10 +101,26 @@ app.get("/:resource", (req, res) => {
   }
 });
 
-app.get("/:resource/:id", (req, res) => {
+app.get("/:resource/:id", (req, res, next) => {
   try {
-    const db = readDB();
+    const apiResources = [
+      "users",
+      "posts",
+      "stories",
+      "reels",
+      "conversations",
+      "notifications",
+      "reposts",
+      "suggestions",
+    ];
+
     const { resource, id } = req.params;
+
+    if (!apiResources.includes(resource)) {
+      return next();
+    }
+
+    const db = readDB();
 
     if (!db[resource]) {
       return res.status(404).json({ error: `${resource} not found` });
@@ -104,6 +149,7 @@ app.post("/:resource", (req, res) => {
     }
 
     const existingItems = db[resource];
+
     const lastId =
       existingItems.length > 0
         ? Math.max(...existingItems.map((item) => Number(item.id) || 0))
@@ -188,7 +234,7 @@ const distPath = path.join(__dirname, "dist");
 if (fs.existsSync(distPath)) {
   app.use(express.static(distPath));
 
-  app.get("*", (req, res) => {
+  app.use((req, res) => {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }
