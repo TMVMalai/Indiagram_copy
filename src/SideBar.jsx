@@ -46,7 +46,7 @@ function SideBar({ setLoggedInUser }) {
         <img
           className="logo-text"
           src="src/assets/ChatGPT Image May 15, 2026, 11_14_10 AM (2).png"
-          alt="Instagram"
+          alt="Indiaagram"
         />
 
         <NavLink to="/" className="sidebar-link">
