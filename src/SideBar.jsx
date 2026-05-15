@@ -45,7 +45,7 @@ function SideBar({ setLoggedInUser }) {
       <div className="d-flex flex-column gap-3">
         <img
           className="logo-text"
-          src="src/assets/instagramtext.png"
+          src="src/assets/ChatGPT Image May 15, 2026, 11_14_10 AM (2).png"
           alt="Instagram"
         />
 
